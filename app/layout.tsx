@@ -1,5 +1,6 @@
-import "./assets/styles/globals.css";
+import "../assets/styles/globals.css";
 import type { Metadata } from "next";
+import NavBar from "@/components/NavBar";
 
 export const metadata: Metadata = {
   title: "PropertyPulse | Find The Perfect Rental",
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>): React.JSX.Element {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }

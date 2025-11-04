@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function Page(): React.JSX.Element {
   return (
     <div>
-      <h1 className="text-3xl">Welcome</h1>
-      <Link href="/properties">Show Properties</Link>
+      <h1 className="text-3xl">Properties</h1>
+      <Link href="/">Go Home</Link>
     </div>
   );
 }
