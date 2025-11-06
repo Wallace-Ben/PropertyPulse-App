@@ -22,7 +22,7 @@ const NavBar = (): React.JSX.Element => {
               id="mobile-dropdown-button"
               className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-controls="mobile-menu"
-              aria-expanded="false"
+              aria-expanded={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             >
               <span className="absolute -inset-0.5"></span>
@@ -112,7 +112,10 @@ const NavBar = (): React.JSX.Element => {
                   />
                 </svg>
               </button>
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+              <span
+                data-testid="notification-badge"
+                className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
+              >
                 2
                 {/* <!-- Replace with the actual number of notifications --> */}
               </span>
@@ -124,7 +127,7 @@ const NavBar = (): React.JSX.Element => {
                   type="button"
                   className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   id="user-menu-button"
-                  aria-expanded="false"
+                  aria-expanded={isProfileMenuOpen}
                   aria-haspopup="true"
                   onClick={() => {
                     setIsProfileMenuOpen((prev) => !prev);
@@ -144,6 +147,7 @@ const NavBar = (): React.JSX.Element => {
               {isProfileMenuOpen && (
                 <div
                   id="user-menu"
+                  data-testid="profile-menu"
                   className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                   role="menu"
                   aria-orientation="vertical"
@@ -185,7 +189,7 @@ const NavBar = (): React.JSX.Element => {
 
       {/* <!-- Mobile menu, show/hide based on menu state. --> */}
       {isMobileMenuOpen && (
-        <div id="mobile-menu">
+        <div id="mobile-menu" data-testid="mobile-menu">
           <div className="space-y-1 px-2 pb-3 pt-2">
             <Link
               href="/"
