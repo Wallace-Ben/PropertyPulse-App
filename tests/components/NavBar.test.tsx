@@ -2,6 +2,7 @@ import { fireEvent, render, screen, cleanup } from "@testing-library/react";
 import NavBar from "../../components/NavBar";
 import "@testing-library/jest-dom";
 import React from "react";
+import { usePathname } from "next/navigation";
 
 jest.mock("next/image", () => {
   const MockImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) =>
@@ -31,6 +32,12 @@ jest.mock("next/link", () => {
   };
 });
 
+jest.mock("next/navigation", () => ({
+  usePathname: jest.fn(),
+}));
+
+const mockUsePathname = usePathname as jest.Mock;
+
 afterEach(() => {
   cleanup();
 });
@@ -38,6 +45,10 @@ afterEach(() => {
 describe("NavBar", () => {
   describe("Mobile & Desktop - independent of login status (default logged in)", () => {
     beforeEach(() => render(<NavBar testLoggedIn />));
+
+    it("has accessible roles for main navigation", () => {
+      expect(screen.getByRole("navigation")).toBeInTheDocument();
+    });
 
     it("Should render the logo and shared main navigation links", () => {
       const homeLinkLogo = screen.getByRole("link", { name: /propertypulse/i });
@@ -55,10 +66,6 @@ describe("NavBar", () => {
         "href",
         "/properties"
       );
-    });
-
-    it("has accessible roles for main navigation", () => {
-      expect(screen.getByRole("navigation")).toBeInTheDocument();
     });
   });
 
@@ -160,6 +167,33 @@ describe("NavBar", () => {
         expect(screen.queryByText("Add Property")).not.toBeInTheDocument();
       });
     });
+
+    describe("Highlighting navigation tabs", () => {
+      it("should highlight the home link when on the home page", () => {
+        mockUsePathname.mockReturnValue("/");
+        render(<NavBar testLoggedIn />);
+        const homeLink = screen.getByTestId("home-link");
+        expect(homeLink).toHaveClass("bg-black");
+      });
+
+      it("should highlight the properties link when on the properties page", () => {
+        mockUsePathname.mockReturnValue("/properties");
+        render(<NavBar testLoggedIn />);
+        const propertiesLink = screen.getByRole("link", {
+          name: /properties/i,
+        });
+        expect(propertiesLink).toHaveClass("bg-black");
+      });
+
+      it("should highlight the add property link when on the properties page", () => {
+        mockUsePathname.mockReturnValue("/properties");
+        render(<NavBar testLoggedIn />);
+        const propertiesLink = screen.getByRole("link", {
+          name: /properties/i,
+        });
+        expect(propertiesLink).toHaveClass("bg-black");
+      });
+    });
   });
 
   describe("Mobile view only", () => {
@@ -218,6 +252,48 @@ describe("NavBar", () => {
         );
         expect(loginOrRegisterButton).toBeInTheDocument(); // Check conditional element exists
         expect(loginOrRegisterButton).toHaveTextContent("Login or Register"); // Check text content is correct
+      });
+    });
+
+    describe("Highlighting mobile navigation tabs", () => {
+      it("should highlight the home mobile menu link when on the home page", () => {
+        mockUsePathname.mockReturnValue("/");
+        render(<NavBar testLoggedIn />);
+
+        const mobileMenuButton = screen.getByRole("button", {
+          name: /open main menu/i,
+        });
+
+        fireEvent.click(mobileMenuButton);
+
+        const homeLink = screen.getByTestId("home-link-mobile");
+        expect(homeLink).toHaveClass("bg-gray-900");
+      });
+
+      it("should highlight the properties mobile menu link when on the properties page", () => {
+        mockUsePathname.mockReturnValue("/properties");
+        render(<NavBar testLoggedIn />);
+
+        const mobileMenuButton = screen.getByRole("button", {
+          name: /open main menu/i,
+        });
+
+        fireEvent.click(mobileMenuButton);
+        const propertiesLink = screen.getByTestId("properties-link-mobile");
+        expect(propertiesLink).toHaveClass("bg-gray-900");
+      });
+
+      it("should highlight the add property mobile menu link when on the properties page", () => {
+        mockUsePathname.mockReturnValue("/properties/add");
+        render(<NavBar testLoggedIn />);
+
+        const mobileMenuButton = screen.getByRole("button", {
+          name: /open main menu/i,
+        });
+
+        fireEvent.click(mobileMenuButton);
+        const propertiesAddLink = screen.getByTestId("properties-add-mobile");
+        expect(propertiesAddLink).toHaveClass("bg-gray-900");
       });
     });
   });

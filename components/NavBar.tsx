@@ -70,6 +70,7 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                   className={`${
                     pathname === "/" ? "bg-black" : ""
                   } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
+                  data-testid="home-link"
                 >
                   Home
                 </Link>
@@ -224,6 +225,7 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
               className={`${
                 pathname === "/" ? "bg-gray-900" : ""
               } text-white block rounded-md px-3 py-2 text-base font-medium`}
+              data-testid="home-link-mobile"
             >
               Home
             </Link>
@@ -232,6 +234,7 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
               className={`${
                 pathname === "/properties" ? "bg-gray-900" : ""
               } text-white block rounded-md px-3 py-2 text-base font-medium`}
+              data-testid="properties-link-mobile"
             >
               Properties
             </Link>
