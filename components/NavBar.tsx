@@ -7,6 +7,7 @@ import profileDefault from "@/assets/images/profile.png";
 import { FaGoogle } from "react-icons/fa";
 import { FaG } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
+import navbarText from "@/locales/navbar";
 
 type NavBarProps = {
   testLoggedIn?: boolean;
@@ -35,7 +36,7 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             >
               <span className="absolute -inset-0.5"></span>
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">{navbarText.link_main_menu}</span>
               <svg
                 className="block h-6 w-6"
                 fill="none"
@@ -56,10 +57,10 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
           <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
             {/* <!-- Logo --> */}
             <Link className="flex flex-shrink-0 items-center" href="/">
-              <Image className="h-10 w-auto" src={logo} alt="PropertyPulse" />
+              <Image className="h-10 w-auto" src={logo} alt="" />
 
               <span className="hidden md:block text-white text-2xl font-bold ml-2">
-                PropertyPulse
+                {navbarText.property_pulse}
               </span>
             </Link>
             {/* <!-- Desktop Menu Hidden below md screens --> */}
@@ -70,9 +71,8 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                   className={`${
                     pathname === "/" ? "bg-black" : ""
                   } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
-                  data-testid="home-link"
                 >
-                  Home
+                  {navbarText.link_home}
                 </Link>
                 <Link
                   href="/properties"
@@ -80,7 +80,7 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                     pathname === "/properties" ? "bg-black" : ""
                   } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
                 >
-                  Properties
+                  {navbarText.link_properties}
                 </Link>
                 {isLoggedIn && (
                   <Link
@@ -88,9 +88,8 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                     className={`${
                       pathname === "/properties/add" ? "bg-black" : ""
                     } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
-                    data-testid="properties-add-desktop"
                   >
-                    Add Property
+                    {navbarText.link_add_property}
                   </Link>
                 )}
               </div>
@@ -101,12 +100,9 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
           {!isLoggedIn && (
             <div className="hidden md:block md:ml-6">
               <div className="flex items-center">
-                <button
-                  className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                  data-testid="login-or-register-desktop"
-                >
+                <button className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2">
                   <FaGoogle className="text-white mr-2" />
-                  <span>Login or Register</span>
+                  <span>{navbarText.button_login_or_register}</span>
                 </button>
               </div>
             </div>
@@ -121,7 +117,9 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5"></span>
-                  <span className="sr-only">View notifications</span>
+                  <span className="sr-only">
+                    {navbarText.button_view_notifications}
+                  </span>
                   <svg
                     className="h-6 w-6"
                     fill="none"
@@ -159,7 +157,9 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                     }}
                   >
                     <span className="absolute -inset-1.5"></span>
-                    <span className="sr-only">Open user menu</span>
+                    <span className="sr-only">
+                      {navbarText.button_open_user_menu}
+                    </span>
                     <Image
                       className="h-8 w-8 rounded-full"
                       src={profileDefault}
@@ -185,9 +185,8 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                       role="menuitem"
                       tabIndex={-1}
                       id="user-menu-item-0"
-                      data-testid="your-profile-link-profile"
                     >
-                      Your Profile
+                      {navbarText.link_your_profile}
                     </Link>
                     <Link
                       href="/properties/saved"
@@ -195,18 +194,16 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                       role="menuitem"
                       tabIndex={-1}
                       id="user-menu-item-2"
-                      data-testid="saved-properties-link-profile"
                     >
-                      Saved Properties
+                      {navbarText.link_saved_properties}
                     </Link>
                     <button
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       tabIndex={-1}
                       id="user-menu-item-2"
-                      data-testid="sign-out-link-profile"
                     >
-                      Sign Out
+                      {navbarText.link_sign_out}
                     </button>
                   </div>
                 )}
@@ -225,18 +222,16 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
               className={`${
                 pathname === "/" ? "bg-gray-900" : ""
               } text-white block rounded-md px-3 py-2 text-base font-medium`}
-              data-testid="home-link-mobile"
             >
-              Home
+              {navbarText.link_home}
             </Link>
             <Link
               href="/properties"
               className={`${
                 pathname === "/properties" ? "bg-gray-900" : ""
               } text-white block rounded-md px-3 py-2 text-base font-medium`}
-              data-testid="properties-link-mobile"
             >
-              Properties
+              {navbarText.link_properties}
             </Link>
             {isLoggedIn && (
               <Link
@@ -244,18 +239,14 @@ const NavBar = ({ testLoggedIn = false }: NavBarProps): React.JSX.Element => {
                 className={`${
                   pathname === "/properties/add" ? "bg-gray-900" : ""
                 } text-white block rounded-md px-3 py-2 text-base font-medium`}
-                data-testid="properties-add-mobile"
               >
-                Add Property
+                {navbarText.link_add_property}
               </Link>
             )}
             {!isLoggedIn && (
-              <button
-                className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-4"
-                data-testid="login-or-register-mobile"
-              >
+              <button className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-4">
                 <FaG className="text-white mr-2" />
-                <span>Login or Register</span>
+                <span>{navbarText.button_login_or_register}</span>
               </button>
             )}
           </div>

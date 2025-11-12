@@ -1,8 +1,15 @@
-import { fireEvent, render, screen, cleanup } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  cleanup,
+  within,
+} from "@testing-library/react";
 import NavBar from "../../components/NavBar";
 import "@testing-library/jest-dom";
 import React from "react";
 import { usePathname } from "next/navigation";
+import navbarText from "@/locales/navbar";
 
 jest.mock("next/image", () => {
   const MockImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) =>
@@ -51,11 +58,12 @@ describe("NavBar", () => {
     });
 
     it("Should render the logo and shared main navigation links", () => {
-      const homeLinkLogo = screen.getByRole("link", { name: /propertypulse/i });
+      const homeLinkLogo = screen.getByRole("link", {
+        name: navbarText.property_pulse,
+      });
       expect(homeLinkLogo).toHaveAttribute("href", "/");
-      expect(homeLinkLogo).toContainElement(
-        screen.getByAltText("PropertyPulse")
-      );
+      const logoImg = homeLinkLogo.querySelector("img");
+      expect(logoImg).toBeInTheDocument();
 
       expect(screen.getByRole("link", { name: /home/i })).toHaveAttribute(
         "href",
@@ -119,19 +127,23 @@ describe("NavBar", () => {
 
       fireEvent.click(profileMenuButton);
 
-      const yourProfileLink = screen.getByTestId("your-profile-link-profile");
+      const yourProfileLink = screen.getByRole("menuitem", {
+        name: navbarText.link_your_profile,
+      });
 
       expect(yourProfileLink).toBeInTheDocument(); // Check conditional element exists
       expect(yourProfileLink).toHaveTextContent("Your Profile"); // Check text content is correct
 
-      const savedPropertiesLink = screen.getByTestId(
-        "saved-properties-link-profile"
-      );
+      const savedPropertiesLink = screen.getByRole("menuitem", {
+        name: navbarText.link_saved_properties,
+      });
 
       expect(savedPropertiesLink).toBeInTheDocument(); // Check conditional element exists
       expect(savedPropertiesLink).toHaveTextContent("Saved Properties"); // Check text content is correct
 
-      const signOutLink = screen.getByTestId("sign-out-link-profile");
+      const signOutLink = screen.getByRole("menuitem", {
+        name: navbarText.link_sign_out,
+      });
 
       expect(signOutLink).toBeInTheDocument(); // Check conditional element exists
       expect(signOutLink).toHaveTextContent("Sign Out"); // Check text content is corrects
@@ -143,7 +155,9 @@ describe("NavBar", () => {
       beforeEach(() => render(<NavBar testLoggedIn />));
 
       it("should render remaining navigation links when logged in", () => {
-        const addPropertyLink = screen.getByTestId("properties-add-desktop");
+        const addPropertyLink = screen.getByRole("link", {
+          name: navbarText.link_add_property,
+        });
         expect(addPropertyLink).toBeInTheDocument(); // Check conditional element exists
         expect(addPropertyLink).toHaveTextContent("Add Property"); // Check text content is correct
       });
@@ -156,9 +170,9 @@ describe("NavBar", () => {
       beforeEach(() => render(<NavBar />));
 
       it("should render login or register text when not logged in", () => {
-        const loginOrRegisterButton = screen.getByTestId(
-          "login-or-register-desktop"
-        );
+        const loginOrRegisterButton = screen.getByRole("button", {
+          name: navbarText.button_login_or_register,
+        });
         expect(loginOrRegisterButton).toBeInTheDocument(); // Check conditional element exists
         expect(loginOrRegisterButton).toHaveTextContent("Login or Register"); // Check text content is correct
       });
@@ -172,7 +186,7 @@ describe("NavBar", () => {
       it("should highlight the home link when on the home page", () => {
         mockUsePathname.mockReturnValue("/");
         render(<NavBar testLoggedIn />);
-        const homeLink = screen.getByTestId("home-link");
+        const homeLink = screen.getByRole("link", { name: /home/i });
         expect(homeLink).toHaveClass("bg-black");
       });
 
@@ -213,7 +227,7 @@ describe("NavBar", () => {
 
         // Check menu opens on button click
         expect(mobileMenuButton).toHaveAttribute("aria-expanded", "true");
-        expect(screen.queryByTestId("mobile-menu")).toBeInTheDocument();
+        expect(screen.getByTestId("mobile-menu")).toBeInTheDocument();
 
         fireEvent.click(mobileMenuButton);
 
@@ -232,8 +246,11 @@ describe("NavBar", () => {
         });
 
         fireEvent.click(mobileMenuButton);
+        const mobileMenu = screen.getByTestId("mobile-menu");
 
-        const propertiesAddLink = screen.getByTestId("properties-add-mobile");
+        const propertiesAddLink = within(mobileMenu).getByRole("link", {
+          name: navbarText.link_add_property,
+        });
         expect(propertiesAddLink).toBeInTheDocument(); // Check conditional element exists
         expect(propertiesAddLink).toHaveTextContent("Add Property"); // Check text content is correct
       });
@@ -246,10 +263,11 @@ describe("NavBar", () => {
         });
 
         fireEvent.click(mobileMenuButton);
+        const mobileMenu = screen.getByTestId("mobile-menu");
 
-        const loginOrRegisterButton = screen.getByTestId(
-          "login-or-register-mobile"
-        );
+        const loginOrRegisterButton = within(mobileMenu).getByRole("button", {
+          name: navbarText.button_login_or_register,
+        });
         expect(loginOrRegisterButton).toBeInTheDocument(); // Check conditional element exists
         expect(loginOrRegisterButton).toHaveTextContent("Login or Register"); // Check text content is correct
       });
@@ -265,8 +283,12 @@ describe("NavBar", () => {
         });
 
         fireEvent.click(mobileMenuButton);
+        const mobileMenu = screen.getByTestId("mobile-menu");
 
-        const homeLink = screen.getByTestId("home-link-mobile");
+        const homeLink = within(mobileMenu).getByRole("link", {
+          name: navbarText.link_home,
+        });
+
         expect(homeLink).toHaveClass("bg-gray-900");
       });
 
@@ -279,7 +301,11 @@ describe("NavBar", () => {
         });
 
         fireEvent.click(mobileMenuButton);
-        const propertiesLink = screen.getByTestId("properties-link-mobile");
+        const mobileMenu = screen.getByTestId("mobile-menu");
+
+        const propertiesLink = within(mobileMenu).getByRole("link", {
+          name: navbarText.link_properties,
+        });
         expect(propertiesLink).toHaveClass("bg-gray-900");
       });
 
@@ -292,7 +318,10 @@ describe("NavBar", () => {
         });
 
         fireEvent.click(mobileMenuButton);
-        const propertiesAddLink = screen.getByTestId("properties-add-mobile");
+        const mobileMenu = screen.getByTestId("mobile-menu");
+        const propertiesAddLink = within(mobileMenu).getByRole("link", {
+          name: navbarText.link_add_property,
+        });
         expect(propertiesAddLink).toHaveClass("bg-gray-900");
       });
     });
