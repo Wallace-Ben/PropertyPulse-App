@@ -1,6 +1,7 @@
 import "../assets/styles/globals.css";
 import type { Metadata } from "next";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "PropertyPulse | Find The Perfect Rental",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <NavBar />
         {children}
+        <Footer />
       </body>
     </html>
   );
