@@ -1,17 +1,46 @@
 import { render, screen } from "@testing-library/react";
-import Page from "../../../app/properties/page";
-import "@testing-library/jest-dom";
+import Page from "@/app/properties/page";
+import properties from "@/properties.json";
+import React from "react";
+
+jest.mock("next/image", () => {
+  const MockImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) =>
+    React.createElement("img", props);
+
+  MockImage.displayName = "MockNextImage";
+
+  return MockImage;
+});
+jest.mock("next/link", () => {
+  type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string;
+    children: React.ReactNode;
+  };
+
+  const MockLink = (props: LinkProps) => {
+    const { href, children, ...rest } = props;
+    return React.createElement("a", { href, ...rest }, children);
+  };
+
+  MockLink.displayName = "MockNextLink";
+
+  return {
+    __esModule: true,
+    default: MockLink,
+  };
+});
 
 describe("Properties Page", () => {
-  it("renders the heading and link", () => {
+  it("renders all properties from JSON", () => {
     render(<Page />);
 
-    expect(
-      screen.getByRole("heading", { name: /properties/i })
-    ).toBeInTheDocument();
+    properties.forEach((p) => {
+      expect(screen.getByText(p.name)).toBeInTheDocument();
+    });
+  });
 
-    const link = screen.getByRole("link", { name: /go home/i });
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute("href", "/");
+  it("renders fallback when list is empty", () => {
+    render(<Page properties={[]} />);
+    expect(screen.getByText(/no properties found/i)).toBeInTheDocument();
   });
 });
