@@ -9,6 +9,7 @@ import {
   FaMoneyBill,
   FaMapMarker,
 } from "react-icons/fa";
+import propertyCardText from "@/locales/propertyCard";
 
 type PropertyCardProps = {
   property: Property;
@@ -33,25 +34,29 @@ const PropertyCard = ({ property }: PropertyCardProps): React.JSX.Element => {
         </div>
         <h3 className="absolute top-[10px] right-[10px] bg-white px-4 py-2 rounded-lg text-blue-500 font-bold text-right md:text-center lg:text-right">
           {monthly
-            ? `$${monthly}/month`
+            ? `${propertyCardText.currency_american}${monthly}${propertyCardText.per_month}`
             : weekly
-            ? `$${weekly}/week`
-            : `$${nightly}/night`}
+            ? `${propertyCardText.currency_american}${weekly}${propertyCardText.per_week}`
+            : `${propertyCardText.currency_american}${nightly}${propertyCardText.per_night}`}
         </h3>
 
         <div className="flex justify-center gap-4 text-gray-500 mb-4">
           <p>
             <FaBed className="inline mr-2" /> {property.beds}
-            <span className="md:hidden lg:inline"> Beds</span>
+            <span className="md:hidden lg:inline">{propertyCardText.beds}</span>
           </p>
           <p>
             <FaBath className="inline mr-2" /> {property.baths}
-            <span className="md:hidden lg:inline"> Baths</span>
+            <span className="md:hidden lg:inline">
+              {propertyCardText.baths}
+            </span>
           </p>
           <p>
             <FaRulerCombined className="inline mr-2" />
             {property.square_feet}{" "}
-            <span className="md:hidden lg:inline">sqft</span>
+            <span className="md:hidden lg:inline">
+              {propertyCardText.square_feet}
+            </span>
           </p>
         </div>
 
@@ -78,7 +83,7 @@ const PropertyCard = ({ property }: PropertyCardProps): React.JSX.Element => {
             href={`/properties/${property._id}`}
             className="h-[36px] bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-center text-sm"
           >
-            Details
+            {propertyCardText.details}
           </Link>
         </div>
       </div>

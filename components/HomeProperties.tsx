@@ -1,10 +1,10 @@
 "use client";
-
 import React, { useEffect, useState, startTransition } from "react";
 import properties from "@/properties.json";
 import PropertyCard from "./PropertyCard";
 import type { Property } from "@/types/property";
 import Link from "next/link";
+import homePropertiesText from "@/locales/homeProperties";
 
 export default function HomeProperties() {
   const [recentProperties, setRecentProperties] = useState<Property[]>([]);
@@ -29,14 +29,14 @@ export default function HomeProperties() {
       <section className="px-4 py-6">
         <div className="container-xl lg:container m-auto">
           <h2 className="text-3xl font-bold text-blue-500 mb-6 text-center">
-            Recent Properties
+            {homePropertiesText.header_recent_properties}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {recentProperties.length === 0 && properties.length === 0 ? (
-              <p>No properties found</p>
+              <p>{homePropertiesText.text_no_properties_found}</p>
             ) : recentProperties.length === 0 ? (
-              <p>Loading...</p>
+              <p>{homePropertiesText.text_loading}</p>
             ) : (
               recentProperties.map((p) => (
                 <PropertyCard key={p._id} property={p} />
@@ -51,7 +51,7 @@ export default function HomeProperties() {
           href="/properties"
           className="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700"
         >
-          View All Properties
+          {homePropertiesText.link_view_properties}
         </Link>
       </section>
     </>

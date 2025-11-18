@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import logo from "@/assets/images/logo.png";
+import footerText from "@/locales/footer";
 
 const Footer = (): React.JSX.Element => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer = (): React.JSX.Element => {
         </div>
         <div>
           <p className="text-sm text-gray-500 mt-2 md:mt-0">
-            &copy; {currentYear} PropertyPulse. All rights reserved.
+            &copy; {currentYear} {footerText.all_rights_reserved}
           </p>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import PropertyCard from "@/components/PropertyCard";
 import { Property } from "@/types/property";
 import React from "react";
+import propertyCardText from "@/locales/propertyCard";
 
 jest.mock("next/image", () => {
   const MockImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) =>
@@ -57,7 +58,11 @@ describe("PropertyCard", () => {
     };
 
     render(<PropertyCard property={property} />);
-    expect(screen.getByText("$4000/month")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        `${propertyCardText.currency_american}${property.rates.monthly}${propertyCardText.per_month}`
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders weekly rate", () => {
@@ -67,7 +72,11 @@ describe("PropertyCard", () => {
     };
 
     render(<PropertyCard property={property} />);
-    expect(screen.getByText("$1200/week")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        `${propertyCardText.currency_american}${property.rates.weekly}${propertyCardText.per_week}`
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders nightly rate", () => {
@@ -77,7 +86,11 @@ describe("PropertyCard", () => {
     };
 
     render(<PropertyCard property={property} />);
-    expect(screen.getByText("$250/night")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        `${propertyCardText.currency_american}${property.rates.nightly}${propertyCardText.per_night}`
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders location", () => {
@@ -98,9 +111,8 @@ describe("PropertyCard", () => {
 
     render(<PropertyCard property={property} />);
 
-    expect(screen.getByRole("link", { name: /details/i })).toHaveAttribute(
-      "href",
-      "/properties/123"
-    );
+    expect(
+      screen.getByRole("link", { name: propertyCardText.details })
+    ).toHaveAttribute("href", "/properties/123");
   });
 });

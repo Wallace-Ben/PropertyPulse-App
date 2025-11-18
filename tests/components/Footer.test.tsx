@@ -2,6 +2,7 @@ import { render, screen, cleanup } from "@testing-library/react";
 import Footer from "@/components/Footer";
 import "@testing-library/jest-dom";
 import React from "react";
+import footerText from "@/locales/footer";
 
 jest.mock("next/image", () => {
   const MockImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) =>
@@ -29,7 +30,7 @@ describe("Footer", () => {
     render(<Footer />);
     const currentYear = new Date().getFullYear();
     expect(
-      screen.getByText(`© ${currentYear} PropertyPulse. All rights reserved.`)
+      screen.getByText(`© ${currentYear} ${footerText.all_rights_reserved}`)
     ).toBeInTheDocument();
   });
 });
