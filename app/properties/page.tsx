@@ -1,11 +1,9 @@
-import propertiesJson from "@/properties.json";
 import PropertyCard from "@/components/PropertyCard";
+import { Property } from "@/types/property";
+import { fetchProperties } from "@/lib/fetchProperties";
 
-export default function Page({
-  properties = propertiesJson,
-}: {
-  properties?: typeof propertiesJson;
-}) {
+export default async function Page() {
+  const properties = await fetchProperties();
   return (
     <section className="px-4 py-6">
       <div className="container-xl lg:container m-auto px-4 py-6">
@@ -13,7 +11,7 @@ export default function Page({
           {properties.length === 0 ? (
             <p>No properties found</p>
           ) : (
-            properties.map((property) => (
+            properties.map((property: Property) => (
               <div key={property._id}>
                 <PropertyCard property={property} />
               </div>

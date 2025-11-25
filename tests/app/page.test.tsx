@@ -5,8 +5,9 @@ import heroText from "@/locales/hero";
 import infoBoxesText from "@/locales/infoBoxes";
 
 describe("Home Page", () => {
-  it("renders Hero and InfoBoxes sections", () => {
-    render(<Page />);
+  it("renders Hero and InfoBoxes sections", async () => {
+    const page = await Page();
+    render(page);
 
     expect(
       screen.getByRole("heading", { name: heroText.heading_main_hero })
@@ -20,8 +21,9 @@ describe("Home Page", () => {
     ).toBeInTheDocument();
   });
 
-  it("contains the navigation links from InfoBoxes", () => {
-    render(<Page />);
+  it("contains the navigation links from InfoBoxes", async () => {
+    const page = await Page();
+    render(page);
 
     const browseLink = screen.getByRole("link", {
       name: infoBoxesText.button_browse_properties,

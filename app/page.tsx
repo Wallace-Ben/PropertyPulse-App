@@ -1,13 +1,16 @@
 import Hero from "@/components/Hero";
 import InfoBoxes from "@/components/InfoBoxes";
 import HomeProperties from "@/components/HomeProperties";
+import { Property } from "@/types/property";
+import { fetchProperties } from "@/lib/fetchProperties";
 
-export default function Page(): React.JSX.Element {
+export default async function Page() {
+  const properties: Property[] = await fetchProperties();
   return (
     <>
       <Hero />
       <InfoBoxes />
-      <HomeProperties />
+      <HomeProperties properties={properties} />
     </>
   );
 }

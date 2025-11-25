@@ -18,7 +18,7 @@ type PropertyCardProps = {
 const PropertyCard = ({ property }: PropertyCardProps): React.JSX.Element => {
   const { nightly, weekly, monthly } = property.rates;
   return (
-    <div className="rounded-xl shadow-md relative">
+    <div data-testid="property-card" className="rounded-xl shadow-md relative">
       <Image
         src={`/images/properties/${property.images[0]}`}
         alt=""

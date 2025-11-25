@@ -1,12 +1,15 @@
 "use client";
 import React, { useEffect, useState, startTransition } from "react";
-import properties from "@/properties.json";
 import PropertyCard from "./PropertyCard";
 import type { Property } from "@/types/property";
 import Link from "next/link";
 import homePropertiesText from "@/locales/homeProperties";
 
-export default function HomeProperties() {
+export default function HomeProperties({
+  properties,
+}: {
+  properties: Property[];
+}) {
   const [recentProperties, setRecentProperties] = useState<Property[]>([]);
 
   useEffect(() => {
@@ -22,7 +25,7 @@ export default function HomeProperties() {
 
       setRecentProperties(shuffled);
     });
-  }, []);
+  }, [properties]);
 
   return (
     <>
