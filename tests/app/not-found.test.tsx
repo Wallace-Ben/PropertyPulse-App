@@ -1,4 +1,3 @@
-// NotFoundPage.test.tsx
 import { render, screen } from "@testing-library/react";
 import NotFoundPage from "../../app/not-found";
 import "@testing-library/jest-dom";

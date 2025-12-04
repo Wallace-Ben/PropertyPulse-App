@@ -21,7 +21,11 @@ export default function HomeProperties({
       const shuffled = properties
         .slice()
         .sort(() => Math.random() - Math.random())
-        .slice(0, 3);
+        .slice(0, 3)
+        .sort(
+          (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
 
       setRecentProperties(shuffled);
     });

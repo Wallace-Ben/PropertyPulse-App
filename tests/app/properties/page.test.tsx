@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import Page from "@/app/properties/page";
+import PropertiesPage from "@/app/properties/page";
 import React from "react";
-import { Property } from "@/types/property";
+import { mockProperties } from "@/tests/mockData/propertyMockData";
 
 jest.mock("next/image", () => {
   const MockImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) =>
@@ -30,27 +30,6 @@ jest.mock("next/link", () => {
   };
 });
 
-const mockProperties: Property[] = [
-  {
-    _id: "1",
-    owner: "1",
-    name: "Test Property",
-    type: "House",
-    description: "desc",
-    location: { street: "", city: "", state: "", zipcode: "" },
-    beds: 1,
-    baths: 1,
-    square_feet: 100,
-    amenities: [],
-    rates: {},
-    seller_info: { name: "", email: "", phone: "" },
-    images: [],
-    is_featured: false,
-    createdAt: "",
-    updatedAt: "",
-  },
-];
-
 describe("Properties Page", () => {
   it("renders all properties from JSON", async () => {
     (global.fetch as jest.Mock) = jest.fn(() =>
@@ -59,7 +38,7 @@ describe("Properties Page", () => {
         json: () => Promise.resolve(mockProperties),
       })
     );
-    const page = await Page();
+    const page = await PropertiesPage();
     render(page);
 
     mockProperties.forEach((p) => {
@@ -74,7 +53,7 @@ describe("Properties Page", () => {
         json: () => Promise.resolve([]),
       })
     );
-    const page = await Page();
+    const page = await PropertiesPage();
     render(page);
     expect(screen.getByText(/no properties found/i)).toBeInTheDocument();
   });

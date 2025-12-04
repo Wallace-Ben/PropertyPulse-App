@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import Page from "../../app/page";
+import Homepage from "../../app/page";
 import "@testing-library/jest-dom";
 import heroText from "@/locales/hero";
 import infoBoxesText from "@/locales/infoBoxes";
 
 describe("Home Page", () => {
   it("renders Hero and InfoBoxes sections", async () => {
-    const page = await Page();
+    const page = await Homepage();
     render(page);
 
     expect(
@@ -22,7 +22,7 @@ describe("Home Page", () => {
   });
 
   it("contains the navigation links from InfoBoxes", async () => {
-    const page = await Page();
+    const page = await Homepage();
     render(page);
 
     const browseLink = screen.getByRole("link", {

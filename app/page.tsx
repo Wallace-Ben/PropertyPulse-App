@@ -4,7 +4,7 @@ import HomeProperties from "@/components/HomeProperties";
 import { Property } from "@/types/property";
 import { fetchProperties } from "@/lib/fetchProperties";
 
-export default async function Page() {
+export default async function Homepage() {
   const properties: Property[] = await fetchProperties();
   return (
     <>
